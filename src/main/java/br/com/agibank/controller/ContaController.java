@@ -71,6 +71,15 @@ public class ContaController {
         return 1;
     }
 
+    public void atualizarSaldo(int id_conta, double valor){
+        try{
+            contaDAO.atualizarSaldo(id_conta,valor);
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 
 
 

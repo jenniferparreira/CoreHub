@@ -102,6 +102,23 @@ public class ContaDAO {
 
     }
 
+    public double atualizarSaldo(int id_conta, double valor) throws SQLException{
+        final String sql = "UPDATE Conta set saldo = saldo + ? where id_conta = ?";
+
+        stmt = con.prepareStatement(sql);
+
+        stmt.setDouble(1,valor);
+        stmt.setInt(2,id_conta);
+
+        rs = stmt.executeQuery();
+
+        if(rs.next()){
+            return rs.getInt("saldo");
+        }
+
+        return 0;
+    }
+
     public int deletarConta(int id) throws SQLException {
         final String sql = "DELETE FROM Conta(id_conta) VALUES(?)";
 
