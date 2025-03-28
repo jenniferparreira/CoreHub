@@ -68,8 +68,8 @@ public class TransacaoDAO {
 
     public double SomarMovimentacaoPorMes (int id_conta) throws SQLException{
         final String sql = "select sum(valor) as soma " +
-                "from Transacao t inner join Status_Transacao st on st.id_transacao = t.id_transacao where month(data) = month(now())" +
-                "and year(data) = year(now()) " +
+                "from Transacao t inner join Status_Transacao st on st.id_transacao = t.id_transacao where month(data) = month(now()) - 1 " +
+                "and year(data) = year(now()) - 1 " +
                 "and st.status = 'APROVADO' " +
                 "and (t.id_conta_destino = ? " +
                 "or t.id_conta_origem = ?) " +
