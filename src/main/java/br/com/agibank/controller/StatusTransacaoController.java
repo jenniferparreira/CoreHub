@@ -15,11 +15,14 @@ public class StatusTransacaoController {
 
     }
 
-    public int criarStatusTransacao(StatusTransacao statusTransacao){
+    public int criarStatusTransacao(StatusTransacao statusTransacao,boolean transacaoExterna){
         try{
             statusTransacaoDAO.criarStatusTransacao(statusTransacao);
             if(statusTransacao.getStatus().equals("APROVADO")){
-                controller.atualizarSaldo(statusTransacao.getIdTransacao(), transacaoController.buscarTransacaoPorId(statusTransacao.getIdTransacao()).getValor());
+                controller.atualizarSaldo(transacaoController.buscarTransacaoPorId(statusTransacao.getIdTransacao()).getIdContaOrigem(), -transacaoController.buscarTransacaoPorId(statusTransacao.getIdTransacao()).getValor());
+                if(transacaoExterna){
+                    controller.atualizarSaldo(transacaoController.buscarTransacaoPorId(statusTransacao.getIdTransacao()).getIdContaDestino(), transacaoController.buscarTransacaoPorId(statusTransacao.getIdTransacao()).getValor());
+                }
             }
             return 1;
         } catch (SQLException e) {
