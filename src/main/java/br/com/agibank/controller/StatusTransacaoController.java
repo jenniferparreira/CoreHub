@@ -18,18 +18,12 @@ public class StatusTransacaoController {
     public int criarStatusTransacao(StatusTransacao statusTransacao){
         try{
             statusTransacaoDAO.criarStatusTransacao(statusTransacao);
+            if(statusTransacao.getStatus().equals("APROVADO")){
+                controller.atualizarSaldo(statusTransacao.getIdTransacao(), transacaoController.buscarTransacaoPorId(statusTransacao.getIdTransacao()).getValor());
+            }
             return 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-
-        if(statusTransacao.getStatus() == "APROVADO"){
-            try{
-                controller.atualizarSaldo(statusTransacao.getIdTransacao(), transacaoController.buscarTransacaoPorId(statusTransacao.getIdTransacao()).getValor());
-            }catch (SQLException e){
-                System.out.println(e.getMessage());
-            }
-
         }
 
         return 0;
